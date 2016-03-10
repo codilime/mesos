@@ -639,6 +639,7 @@ libmesos_no_3rdparty_la_SOURCES +=					\
   slave/container_logger.cpp						\
   slave/flags.cpp							\
   slave/gc.cpp								\
+  slave/hook_config.cpp							\
   slave/http.cpp							\
   slave/metrics.cpp							\
   slave/monitor.cpp							\
@@ -751,6 +752,7 @@ libmesos_no_3rdparty_la_SOURCES +=					\
   slave/constants.hpp							\
   slave/flags.hpp							\
   slave/gc.hpp								\
+  slave/hook_config.hpp							\
   slave/metrics.hpp							\
   slave/monitor.hpp							\
   slave/paths.hpp							\

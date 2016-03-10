@@ -220,6 +220,8 @@ if (NOT WIN32)
     ${AGENT_SRC}
     slave/gc.cpp
     slave/flags.cpp
+    slave/hook_config.cpp
+    slave/hook_config.hpp
     slave/http.cpp
     slave/monitor.cpp
     slave/qos_controller.cpp
