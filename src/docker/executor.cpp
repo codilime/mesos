@@ -120,12 +120,14 @@ public:
       status.set_message(
           "Attempted to run multiple tasks using a \"docker\" executor");
 
+      status.mutable_labels()->MergeFrom(task.labels());
       driver->sendStatusUpdate(status);
       return;
     }
 
     // Capture the TaskID.
     taskId = task.task_id();
+    this->task = task;
 
     cout << "Starting task " << taskId.get() << endl;
 
@@ -178,6 +180,7 @@ public:
               networkInfo->add_ip_addresses();
             ipAddress->set_ip_address(container.ipAddress.get());
           }
+          status.mutable_labels()->MergeFrom(task.labels());
           driver->sendStatusUpdate(status);
         }
 
@@ -214,6 +217,7 @@ public:
           TaskStatus status;
           status.mutable_task_id()->CopyFrom(taskId.get());
           status.set_state(TASK_KILLING);
+          status.mutable_labels()->MergeFrom(task.get().labels());
           driver->sendStatusUpdate(status);
           break;
         }
@@ -266,6 +270,7 @@ protected:
     status.mutable_task_id()->CopyFrom(taskID);
     status.set_healthy(healthy);
     status.set_state(TASK_RUNNING);
+    status.mutable_labels()->MergeFrom(task.get().labels());
     driver.get()->sendStatusUpdate(status);
 
     if (initiateTaskKill) {
@@ -316,6 +321,7 @@ private:
             taskStatus.set_healthy(false);
           }
 
+          taskStatus.mutable_labels()->MergeFrom(task.get().labels());
           driver.get()->sendStatusUpdate(taskStatus);
 
           // A hack for now ... but we need to wait until the status update
@@ -438,6 +444,7 @@ private:
   Option<ExecutorDriver*> driver;
   Option<FrameworkInfo> frameworkInfo;
   Option<TaskID> taskId;
+  Option<TaskInfo> task;
 };
 
 
